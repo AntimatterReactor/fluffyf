@@ -1,0 +1,6 @@
+# build directory
+/target
+
+# generated files
+*.png
+*.pdf
