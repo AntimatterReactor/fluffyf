@@ -1,17 +1,45 @@
-use std::str::FromStr;
+use std::{str::FromStr, cmp::Ordering};
 
-use time::Date;
+use serde::{Deserialize, de::Visitor};
+use time::OffsetDateTime;
 
-use super::{tags::TagObject, file::FileObject};
+use super::{tags::{TagObject, TagType}, file::{FileObject, PreviewObject, SampleObject}, supplement::IdType, traits::*, datetimeformat};
 
-#[derive(Debug, PartialEq, Eq)]
+pub const POSTS_URL: &'static str = "posts.json";
+
+#[derive(Debug, Eq, Deserialize)]
 pub struct Score {
-    up: u32,   // As of 2023, the most upvoted post [2848682] is at +21425 raw whereas
-    down: u32, // the most downvoted post (don't view, seriously) [378180] is at -7033 raw
-    total: u32 // Note: unlike in the json, this will store only absolute values
+    up: i32,   // As of 2023, the most upvoted post [2848682] is at +21425 raw whereas
+    down: i32, // the most downvoted post (don't view, seriously) [378180] is at -7033 raw
+    total: i32
 }
 
-#[derive(Debug, PartialEq, Eq)]
+impl Ord for Score {
+    fn cmp(&self, other: &Self) -> Ordering {
+        self.total.cmp(&other.total)
+    }
+}
+
+impl PartialOrd for Score {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
+impl PartialEq for Score {
+    fn eq(&self, other: &Self) -> bool {
+        self.total == other.total
+    }
+}
+
+impl Score {
+    fn count_total(&mut self) -> i32 {
+        self.total = self.up + self.down;
+        self.total
+    }
+}
+
+#[derive(Debug, PartialEq, Eq, Deserialize)]
 pub struct Flags {
     pending: bool,
     flagged: bool,
@@ -28,53 +56,92 @@ pub enum Rating {
     EXPLICIT
 }
 
-impl FromStr for Rating {
-    type Err = String;
+impl<'de> Deserialize<'de> for Rating {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+        where
+            D: serde::Deserializer<'de> {
+        struct RatingVisitor;
+        
+        impl<'de> Visitor<'de> for RatingVisitor {
+            type Value = Rating;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        match s {
-            "s" => Ok(Self::SAFE),
-            "q" => Ok(Self::QUESTIONABLE),
-            "e" => Ok(Self::EXPLICIT),
-            _ => Err("Unexpected str".to_string()) // TODO: Make an actual error struct
+            fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+                formatter.write_str("a string equals to either `s`, `q`, or `e`")
+            }
+
+            fn visit_str<E>(self, v: &str) -> Result<Self::Value, E>
+                where
+                    E: serde::de::Error, {
+                match v {
+                    "s" => Ok(Self::Value::SAFE),
+                    "q" => Ok(Self::Value::QUESTIONABLE),
+                    "e" => Ok(Self::Value::EXPLICIT),
+                    _ => Err(E::custom(format!("unexpected rating {v}")))
+                }
+            }
         }
+        deserializer.deserialize_str(RatingVisitor)
     }
 }
 
-#[derive(Debug, PartialEq)]
+// TODO: impl Serialize for Rating
+
+#[derive(Debug, Deserialize)]
 pub struct Relation {
-    parent_id: Option<u32>,
+    parent_id: Option<IdType>,
     has_children: bool,
     has_active_children: bool,
-    children: Option<Vec<u32>>
+    children: Vec<IdType>
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, Deserialize)]
 pub struct PostObject {
-    id: u32,
-    created_at: Date,
-    updated_at: Date,
+    id: IdType,
+    #[serde(with = "datetimeformat")]
+    created_at: OffsetDateTime,
+    #[serde(with = "datetimeformat")]
+    updated_at: OffsetDateTime,
     file: FileObject,
-    preview: FileObject,
-    sample: Option<FileObject>,
+    preview: PreviewObject,
+    sample: SampleObject,
     score: Score,
     tags: TagObject,
+    locked_tags: TagType,
     change_seq: u32,
     flags: Flags,
     rating: Rating,
     fav_count: u32,
     sources: Vec<String>,
-    pools: Option<Vec<u32>>,
+    pools: Vec<IdType>,
     relationships: Relation,
-    approver_id: Option<u32>,
-    uploader_id: u32,
+    approver_id: Option<IdType>,
+    uploader_id: IdType,
     description: String,
-    comment_count: bool,
+    comment_count: u16,
     is_favorited: bool,
     has_notes: bool,
-    // duration: // Undocumented by e621.net, observed to always be null, as such not implemented
+    duration: Option<f32>
+}
+
+#[derive(Debug, Deserialize)]
+pub struct PostObjectWrapper {
+    post: PostObject
+}
+
+impl Create for PostObject {
+    
+}
+
+impl Update for PostObject {
+
+}
+
+impl List for PostObject {
+
 }
 
 impl PostObject {
-    
+    async fn vote(&self, score: i8, no_unvote: bool) {
+
+    }
 }

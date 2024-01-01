@@ -1,35 +1,44 @@
 use std::str::FromStr;
 use time::Date;
 
+use super::supplement::IdType;
+
+pub const POOLS_URL: &'static str = "pools.json";
+
 #[derive(Debug, PartialEq, Eq)]
 pub enum Category {
-    SERIES,
-    COLLECTION
+    Series,
+    Collection
+}
+
+#[derive(Debug, PartialEq, Eq)]
+pub enum CategoryError {
+    Default
 }
 
 impl FromStr for Category {
-    type Err = String;
+    type Err = CategoryError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
-            "series" => Ok(Self::SERIES),
-            "collection" => Ok(Self::COLLECTION),
-            _ => Err("Unexpected str".to_string()) // TODO: Make an actual error struct
+            "series" => Ok(Self::Series),
+            "collection" => Ok(Self::Collection),
+            _ => Err(Self::Err::Default)
         }
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug)]
 pub struct PoolObject {
-    id: u32,
+    id: IdType,
     name: String,
     created_at: Date,
     updated_at: Date,
-    creator_id: u32,
+    creator_id: IdType,
     description: String,
     is_active: bool,
     category: Category,
-    post_ids: Vec<u32>,
+    post_ids: Vec<IdType>,
     creator_name: String,
     post_count: u16
 }

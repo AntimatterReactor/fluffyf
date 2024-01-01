@@ -1,2 +1,2 @@
 - [ ] implement methods and traits for api objects
-- [ ] replace reqwest with hyper for reduced dependency, more autonomy, and finer control
+- [ ] hell: use more specific Deserialize method for ***every* object**

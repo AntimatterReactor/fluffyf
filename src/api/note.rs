@@ -1,6 +1,8 @@
 use time::Date;
 
-#[derive(Debug, PartialEq)]
+pub const NOTES_URL: &'static str = "notes.json";
+
+#[derive(Debug)]
 pub struct NoteObject {
     id: u32,
     created_at: Date,

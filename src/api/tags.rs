@@ -1,6 +1,22 @@
-type TagType = Option<Vec<String>>;
+use serde::Deserialize;
 
-#[derive(Debug, PartialEq)]
+pub const TAGS_URL: &'static str = "tags.json";
+
+#[derive(Debug, PartialEq, Eq)]
+pub enum Kind {
+    GENERAL = 0,
+    ARTIST,
+    COPYRIGHT,
+    CHARACTER,
+    SPECIES,
+    INVALID,
+    META,
+    LORE = 8,
+}
+
+pub type TagType = Vec<String>;
+
+#[derive(Debug, Deserialize)]
 pub struct TagObject {
     general: TagType,
     artist: TagType,
@@ -10,7 +26,6 @@ pub struct TagObject {
     invalid: TagType,
     meta: TagType,
     lore: TagType,
-    locked: TagType,
 }
 
 impl TagObject {
