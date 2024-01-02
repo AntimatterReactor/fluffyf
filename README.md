@@ -12,7 +12,7 @@ This project is under a dual license of:
 - BSD 4-Clause License
 - Apache License, Version 2.0
 
-upon which both is used, and must be complied with.
+upon which both is and must be applied/used at the same time.
 
 ## This Project is Under Construction 🚧
 

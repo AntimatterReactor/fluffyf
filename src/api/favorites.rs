@@ -1,6 +1,6 @@
 use serde::Deserialize;
 
-use super::post::PostObject;
+use super::posts::PostObject;
 
 #[derive(Debug, Deserialize)]
 pub struct FavObject {

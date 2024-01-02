@@ -1,12 +1,17 @@
-use time::Date;
+use serde::Deserialize;
+use time::{Date, OffsetDateTime};
+
+use super::datetimeformat;
 
 pub const NOTES_URL: &'static str = "notes.json";
 
-#[derive(Debug)]
+#[derive(Debug, Deserialize)]
 pub struct NoteObject {
     id: u32,
-    created_at: Date,
-    updated_at: Date,
+    #[serde(with = "datetimeformat")]
+    created_at: OffsetDateTime,
+    #[serde(with = "datetimeformat")]
+    updated_at: OffsetDateTime,
     creator_id: u32,
     x: u16, // These (x, y) values are from the top left of the screen: no negatives needed
     y: u16, // Also, the current semi-implemented highest resolution screen is 16K, so u16 is enough
