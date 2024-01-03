@@ -1,6 +1,8 @@
 # build directory
 /target
+/.vscode
 
 # generated files
 *.png
 *.pdf
+*.zip
