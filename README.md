@@ -9,10 +9,13 @@ Before anything, please read [e621's own API documentation](https://e621.net/wik
 ## License
 This project is under a dual license of:
 
-- BSD 4-Clause License
+- BSD 2-Clause License
 - Apache License, Version 2.0
 
-upon which both is and must be applied/used at the same time.
+at Your (as defined in the Apache 2.0 License) option.
+
+Unless explicitly stated otherwise, any Contribution made by any Contributor to the Work
+shall be implicitly dual licensed as stated above.
 
 ## This Project is Under Construction 🚧
 
