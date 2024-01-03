@@ -1,24 +1,13 @@
 [package]
 name = "fluffyf"
 version = "0.1.0"
-edition = "2021"
 authors = ["Ezra Alvarion <ezraalvarion71@gmail.com>"]
-description = "An e621 post and pool downloader"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
-base64 = "0.21"
-bytes = "^1"
-reqwest = { version = "0.11", features = ["json", "blocking", "multipart"] }
-tokio = { version = "^1", features = ["full"] }
-clap = "^4"
-serde = { version = "^1", features = ["derive"] }
-log = "0.4"
-simple_logger = "4"
-time = { version = "0.3", features = ["formatting", "macros", "parsing", "serde"]}
-async-trait = "0.1"
-futures = "0.3"
+edition = "2021"
+description = "An e621 api wrapper and downloader"
+repository = "https://github.com/AntimatterReactor/fluffyf"
+license = "BSD-4-Clause AND Apache-2.0"
+keywords = ["e621", "api", "furry"]
+categories = ["api-bindings", "command-line-utilities"]
 
 [lib]
 
@@ -30,3 +19,22 @@ name = "fluffypost"
 
 [[test]]
 name = "fluffyintegration"
+
+[features]
+
+[dependencies]
+reqwest = { version = "0.11", features = ["json", "blocking", "multipart"] }
+tokio = { version = "^1", features = ["full"] }
+serde = { version = "^1", features = ["derive"] }
+time = { version = "0.3", features = ["formatting", "macros", "parsing", "serde"]}
+base64 = "0.21"
+bytes = "^1"
+clap = "^4"
+log = "0.4"
+simple_logger = "4"
+async-trait = "0.1"
+futures = "0.3"
+
+[profile.release]
+strip = true
+lto = true
