@@ -1,2 +1,12 @@
-- [ ] implement methods and traits for api objects
+- [ ] frustrating: implement methods and traits for API objects
 - [ ] hell: use more specific Deserialize method for ***every* object**
+- [ ] painful: switch from reqwest to hyper + rustls/native-tls
+- [ ] annoying: document thoroughly:
+    - [ ] posts
+    - [ ] pools
+    - [ ] connect and connect::methods
+    - [ ] favorites
+    - [ ] search
+    - [ ] tags
+    - [ ] notes
+    - [ ] post_flags
