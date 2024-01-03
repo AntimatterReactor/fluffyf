@@ -8,7 +8,7 @@ use reqwest::{Url, Client, Error};
 use serde::{Deserialize, de::Visitor};
 use time::OffsetDateTime;
 
-use crate::connect::method;
+use crate::connect::methods;
 
 use self::{relations::Relations, score::Score, flags::Flags, rating::Rating};
 
@@ -69,12 +69,12 @@ pub enum PostObjectWrapper {
 
 impl PostObjectWrapper {
     pub async fn new_by_url(client: Client, url: Url) -> Result<Self, Error> {
-        Ok(method::get(client, url).await?.json::<Self>().await?)
+        Ok(methods::get(client, url).await?.json::<Self>().await?)
     }
 
     pub async fn new_by_id(client: Client, id: IdType) -> Result<Self, Error> {
         Ok(
-            method::get(client, format!("https://e621.net/posts/{id}.json")
+            methods::get(client, format!("https://e621.net/posts/{id}.json")
                 .parse().unwrap()).await?.json::<Self>().await?
         )
     }

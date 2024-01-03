@@ -4,7 +4,7 @@ use reqwest::{Url, Client, Error};
 use serde::{Deserialize, de::Visitor};
 use time::OffsetDateTime;
 
-use crate::connect::method;
+use crate::connect::methods;
 
 use super::{supplement::IdType, datetimeformat, traits::List, posts::{PostObject, PostObjectWrapper}};
 
@@ -92,7 +92,7 @@ impl PoolObject {
     /// Creates a new `PoolObject` by fetching a `url` and
     /// processing the result using `serde`'s `Deserialize`
     pub async fn new_by_url(client: Client, url: Url) -> Result<Self, Error> {
-        Ok(method::get(client.clone(), url).await?.json::<Self>().await?)
+        Ok(methods::get(client.clone(), url).await?.json::<Self>().await?)
     }
 
     /// Creates a new `PoolObject` by fetching an `id` to *`https://e621.net/pools/<id>.json`*
@@ -109,7 +109,7 @@ impl PoolObject {
     /// ```
     pub async fn new_by_id(client: Client, id: IdType) -> Result<Self, Error> {
         Ok(
-            method::get(client.clone(), format!("https://e621.net/pools/{id}.json")
+            methods::get(client.clone(), format!("https://e621.net/pools/{id}.json")
                 .parse().unwrap()).await?.json::<Self>().await?
         )
     }

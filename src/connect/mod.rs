@@ -1,4 +1,4 @@
-pub mod method;
+pub mod methods;
 
 use log::info;
 use reqwest::{header::{HeaderMap, USER_AGENT, AUTHORIZATION}, Client};
