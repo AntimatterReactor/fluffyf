@@ -1,19 +1,18 @@
 mod common;
 
-use std::{error::Error as stdError, time::Duration, sync::{Arc, Mutex}};
+use std::error::Error as stdError;
+use clap::{command, Parser, arg, Subcommand};
 use common::build_header;
 use futures::StreamExt;
-use reqwest::Url;
-use fluffyf::{connect::*, api::{posts::{PostObject, PostObjectWrapper}, favorites::FavObject, pools::PoolObject}};
+use fluffyf::{connect::*, api::{posts::PostObjectWrapper, pools::PoolObject}};
 use tokio::{fs::File, io::AsyncWriteExt};
 
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn stdError>> {
-    simple_logger::SimpleLogger::new().init().unwrap();
+async fn download_pool() -> Result<(), Box<dyn stdError>> {
     let client = create_client(build_header("ostipyroxene", "tCEt2CifHzRzMAcakJuEYpbx"))?;
-    let pool = PoolObject::new_by_id(&client, 37853).await?;
+    let pool = PoolObject::new_by_id(client.clone(), 37853).await?;
     println!("{:#?}", pool);
-    let posts = pool.get_all_posts(&client).await?;
+    let posts = pool.get_all_posts(client.clone()).await?;
     futures::stream::iter(posts.iter().map(|postw| {
         let cc = client.clone();
         async move {
@@ -32,5 +31,41 @@ async fn main() -> Result<(), Box<dyn stdError>> {
             }
         }
     })).buffer_unordered(20).collect::<Vec<()>>().await;
+    Ok(())
+}
+
+// #[derive(Parser)]
+// #[command(author, version, about, long_about = None)]
+// struct Cli {
+//     /// Optional name to operate on
+//     name: Option<String>,
+
+//     /// Sets a custom config file
+//     #[arg(short, long, value_name = "FILE")]
+//     config: Option<PathBuf>,
+
+//     /// Turn debugging information on
+//     #[arg(short, long, action = clap::ArgAction::Count)]
+//     debug: u8,
+
+//     #[command(subcommand)]
+//     command: Option<Commands>,
+// }
+
+// #[derive(Subcommand)]
+// enum Commands {
+//     /// does testing things
+//     Test {
+//         /// lists test values
+//         #[arg(short, long)]
+//         list: bool,
+//     },
+// }
+
+fn main() -> Result<(), Box<dyn stdError>> {
+    // Starts the logger
+    // TODO: change the logger implementation to env_logger
+    simple_logger::SimpleLogger::new().init().unwrap();
+
     Ok(())
 }

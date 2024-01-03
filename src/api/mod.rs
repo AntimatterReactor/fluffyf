@@ -1,9 +1,17 @@
+
+
+
+//! An implementation/the equivalent of e621's JSON replies
+//! 
+//! 
+
 pub mod pools;
 pub mod posts;
 pub mod file;
 pub mod tags;
 pub mod notes;
 pub mod favorites;
+pub mod post_flags;
 pub mod search;
 pub mod traits;
 pub mod supplement;

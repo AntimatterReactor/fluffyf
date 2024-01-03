@@ -1,7 +1,7 @@
 use serde::{Deserialize, de::Visitor};
 use time::OffsetDateTime;
 
-use super::{super::supplement::IdType, datetimeformat};
+use super::{datetimeformat, supplement::IdType};
 
 pub const FLAGS_URL: &'static str = "post_flags.json";
 
@@ -42,15 +42,15 @@ impl<'de> Deserialize<'de> for Type {
 
 #[derive(Debug, Deserialize)]
 pub struct FlagObject {
-    id: IdType,
+    pub id: IdType,
     #[serde(with = "datetimeformat")]
-    created_at: OffsetDateTime,
-    post_id: IdType,
-    reason: String,
-    creator_id: IdType,
-    is_resolved: bool,
+    pub created_at: OffsetDateTime,
+    pub post_id: IdType,
+    pub reason: String,
+    pub creator_id: IdType,
+    pub is_resolved: bool,
     #[serde(with = "datetimeformat")]
-    updated_at: OffsetDateTime,
-    is_deletion: bool,
-    r#type: Type
+    pub updated_at: OffsetDateTime,
+    pub is_deletion: bool,
+    pub r#type: Type
 }

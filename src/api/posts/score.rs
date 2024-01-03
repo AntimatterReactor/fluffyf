@@ -4,9 +4,9 @@ use serde::Deserialize;
 
 #[derive(Debug, Eq, Deserialize)]
 pub struct Score {
-    up: i32,   // As of 2023, the most upvoted post [2848682] is at +21425 raw whereas
-    down: i32, // the most downvoted post (don't view, seriously) [378180] is at -7033 raw
-    total: i32
+    pub up: i32,   // As of 2023, the most upvoted post [2848682] is at +21425 raw whereas
+    pub down: i32, // the most downvoted post (don't view, seriously) [378180] is at -7033 raw
+    pub total: i32
 }
 
 impl Ord for Score {

@@ -18,14 +18,14 @@ pub type TagType = Vec<String>;
 
 #[derive(Debug, Deserialize)]
 pub struct TagObject {
-    general: TagType,
-    artist: TagType,
-    copyright: TagType,
-    character: TagType,
-    species: TagType,
-    invalid: TagType,
-    meta: TagType,
-    lore: TagType,
+    pub general: TagType,
+    pub artist: TagType,
+    pub copyright: TagType,
+    pub character: TagType,
+    pub species: TagType,
+    pub invalid: TagType,
+    pub meta: TagType,
+    pub lore: TagType,
 }
 
 impl TagObject {

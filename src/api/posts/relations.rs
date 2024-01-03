@@ -5,8 +5,8 @@ use crate::api::supplement::IdType;
 
 #[derive(Debug, Deserialize)]
 pub struct Relations {
-    parent_id: Option<IdType>,
-    has_children: bool,
-    has_active_children: bool,
-    children: Vec<IdType>
+    pub parent_id: Option<IdType>,
+    pub has_children: bool,
+    pub has_active_children: bool,
+    pub children: Vec<IdType>
 }

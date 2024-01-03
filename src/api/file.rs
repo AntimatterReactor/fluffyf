@@ -8,27 +8,27 @@ use tokio::{fs::File, io::AsyncWriteExt};
 
 #[derive(Debug, Deserialize)]
 pub struct AltObject {
-    r#type: String,
-    width: u32,
-    height: u32,
-    urls: Vec<String>
+    pub r#type: String,
+    pub width: u32,
+    pub height: u32,
+    pub urls: Vec<String>
 }
 
 #[derive(Debug, Deserialize)]
 pub struct FileObject {
-    width: u16,  // The widest image on e621 [112770] is 21616 pixels long and
-    height: u16, // the tallest [37061] is 17700 pixels tall, much less than 2^16-1
+    pub width: u16,  // The widest image on e621 [112770] is 21616 pixels long and
+    pub height: u16, // the tallest [37061] is 17700 pixels tall, much less than 2^16-1
     pub ext: String,
-    size: u64,   // Size is not as clear-cut as dimension because of videos
-    md5: String,
+    pub size: u64,   // Size is not as clear-cut as dimension because of videos
+    pub md5: String,
     pub url: String,
 }
 
 #[derive(Debug, Deserialize)]
 pub struct PreviewObject {
-    width: u16,
-    height: u16,
-    url: Option<String>,
+    pub width: u16,
+    pub height: u16,
+    pub url: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
