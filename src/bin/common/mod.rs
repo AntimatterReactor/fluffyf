@@ -6,11 +6,13 @@
 // at Your option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-use std::fmt::Display;
-
-use base64::{engine::general_purpose, Engine};
-use log::info;
-use reqwest::header::{USER_AGENT, AUTHORIZATION, HeaderMap};
+use {
+    std::fmt::Display,
+    
+    base64::{engine::general_purpose, Engine},
+    log::info,
+    reqwest::header::{USER_AGENT, AUTHORIZATION, HeaderMap},
+};
 
 pub fn encode_login<T: Display>(username: T, apikey: T) -> String {
     let r = general_purpose::STANDARD.encode(format!("{username}:{apikey}").as_bytes());

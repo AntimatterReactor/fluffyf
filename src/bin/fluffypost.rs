@@ -8,10 +8,12 @@ mod common;
 // at Your option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-use fluffyf::connect::{methods, blocking};
-use reqwest::blocking::multipart::Form;
+use {
+    fluffyf::connect::{methods, blocking},
+    reqwest::blocking::multipart::Form,
 
-use crate::common::build_header;
+    crate::common::build_header,
+};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let client = blocking::create_client(build_header("ostipyroxene", "tCEt2CifHzRzMAcakJuEYpbx"))?;

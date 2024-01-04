@@ -8,12 +8,14 @@
 
 mod common;
 
-use std::error::Error as stdError;
-use clap::{command, Parser, arg, Subcommand};
-use common::build_header;
-use futures::StreamExt;
-use fluffyf::{connect::*, api::{posts::PostObjectWrapper, pools::PoolObject}};
-use tokio::{fs::File, io::AsyncWriteExt};
+use {
+    std::error::Error as stdError,
+    clap::{command, Parser, arg, Subcommand},
+    common::build_header,
+    futures::StreamExt,
+    fluffyf::{connect::*, api::{posts::PostObjectWrapper, pools::PoolObject}},
+    tokio::{fs::File, io::AsyncWriteExt},
+};
 
 #[tokio::main]
 async fn download_pool() -> Result<(), Box<dyn stdError>> {

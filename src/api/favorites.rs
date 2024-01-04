@@ -6,12 +6,15 @@
 // at Your option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-use serde::Deserialize;
+use {
+    serde::Deserialize,
 
-use super::posts::PostObject;
+    super::posts::PostObject,
+};
 
 #[derive(Debug, Deserialize)]
 pub struct FavObject {
+    /// An unordered array of posts you favorited.
     pub posts: Vec<PostObject>
 }
 

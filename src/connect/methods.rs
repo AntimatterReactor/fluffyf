@@ -6,8 +6,10 @@
 // at Your option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-use log::debug;
-use reqwest::{Url, Client, Error as rqError, Response};
+use {
+    log::debug,
+    reqwest::{Url, Client, Error as rqError, Response},
+};
 
 pub async fn get(client: Client, url: Url) -> Result<Response, rqError> {
     debug!("Fetching {url} using get...");
@@ -24,9 +26,11 @@ pub async fn post(client: Client, url: Url, body: reqwest::multipart::Form) -> R
 }
 
 pub mod blocking {
-    use super::*;
-
-    use reqwest::blocking;
+    use {
+        reqwest::blocking,
+        
+        super::*,
+    };
 
     pub fn get(client: blocking::Client, url: Url) -> Result<blocking::Response, rqError> {
         debug!("Fetching {url} using get_blocking...");

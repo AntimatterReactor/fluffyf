@@ -6,15 +6,28 @@
 // at Your option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-use async_trait::async_trait;
-use reqwest::{Url, Client};
+use {
+    async_trait::async_trait,
+    reqwest::{Url, Client, Error},
+    serde::de::DeserializeOwned,
 
-use super::supplement::IdType;
+    crate::connect::methods,
+
+    super::supplement::IdType,
+};
 
 #[async_trait]
-pub trait List {
+pub trait List where Self: Sized + DeserializeOwned {
+    async fn new_by_url(client: Client, url: Url) -> Result<Self, Error> {
+        Ok(methods::get(client, url).await?.json::<Self>().await?)
+    }
 
-
+    async fn new_by_id(client: Client, id: IdType) -> Result<Self, Error> {
+        Ok(
+            methods::get(client, format!("https://e621.net/posts/{id}.json")
+                .parse().unwrap()).await?.json::<Self>().await?
+        )
+    }
 }
 
 #[async_trait]

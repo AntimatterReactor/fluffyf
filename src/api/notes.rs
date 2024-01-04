@@ -6,10 +6,12 @@
 // at Your option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-use serde::Deserialize;
-use time::{Date, OffsetDateTime};
+use {
+    serde::Deserialize,
+    time::OffsetDateTime,
 
-use super::datetimeformat;
+    super::datetimeformat,
+};
 
 pub const NOTES_URL: &'static str = "notes.json";
 

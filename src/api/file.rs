@@ -6,13 +6,29 @@
 // at Your option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-use std::{collections::HashMap, error::Error, sync::{Mutex, Arc}};
+use {
+    std::{collections::HashMap, error::Error},
+    
+    bytes::Bytes,
+    log::debug,
+    reqwest::Client,
+    serde::Deserialize,
+    tokio::{fs::File, io::AsyncWriteExt},
+};
 
-use bytes::Bytes;
-use log::debug;
-use reqwest::{Client, Url};
-use serde::Deserialize;
-use tokio::{fs::File, io::AsyncWriteExt};
+#[derive(Debug, PartialEq, Eq, Deserialize)]
+pub enum Extension {
+    #[serde(rename = "jpg")]
+    Jpeg,
+    #[serde(rename = "png")]
+    Png,
+    #[serde(rename = "gif")]
+    Gif,
+    #[serde(rename = "swf")]
+    Swf,
+    #[serde(rename = "webm")]
+    WebM
+}
 
 #[derive(Debug, Deserialize)]
 pub struct AltObject {
@@ -24,11 +40,17 @@ pub struct AltObject {
 
 #[derive(Debug, Deserialize)]
 pub struct FileObject {
-    pub width: u16,  // The widest image on e621 [112770] is 21616 pixels long and
-    pub height: u16, // the tallest [37061] is 17700 pixels tall, much less than 2^16-1
-    pub ext: String,
+    /// **Funfact**: The widest image on e621 \[112770\] is 21616 pixels long.
+    pub width: u16,
+
+    /// And the tallest \[37061\] is 17700 pixels tall.
+    pub height: u16, 
+
+    pub ext: Extension,
     pub size: u64,   // Size is not as clear-cut as dimension because of videos
     pub md5: String,
+
+    /// The URL where the file is hosted on E6.
     pub url: String,
 }
 
@@ -36,15 +58,25 @@ pub struct FileObject {
 pub struct PreviewObject {
     pub width: u16,
     pub height: u16,
-    pub url: Option<String>,
+
+    /// The URL where the preview file is hosted on E6.
+    pub url: String,
 }
 
 #[derive(Debug, Deserialize)]
 pub struct SampleObject {
+    /// If the post has a sample/thumbnail or not.
     pub has: bool,
     pub height: u16,
     pub width: u16,
-    pub url: Option<String>,
+
+    /// The URL where the sample file is hosted on E6.
+    pub url: String,
+
+    /// Alternate samples to use, usually only relevant for
+    /// videos and specifies different format per sample.
+    /// 
+    /// The form is Key-Paired Objects where the key is something like `480p`.
     pub alternates: HashMap<String, AltObject>
 }
 

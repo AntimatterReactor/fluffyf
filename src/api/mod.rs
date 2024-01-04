@@ -6,7 +6,7 @@
 // at Your option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-//! An implementation/the equivalent of e621's JSON replies
+//! An implementation/analogue of e926's JSON replies
 //! 
 //! 
 
@@ -23,5 +23,5 @@ pub mod supplement;
 
 time::serde::format_description!(datetimeformat, OffsetDateTime, "[year]-[month]-[day]T[hour]:[minute]:[second].[subsecond digits:3][offset_hour sign:mandatory]:[offset_minute]");
 
-const BASE_URL1: &'static str = "https://e621.net";
-const BASE_URL2: &'static str = "https://e926.net";
+const BASE_URL621: &'static str = "https://e621.net";
+const BASE_URL926: &'static str = "https://e926.net";
