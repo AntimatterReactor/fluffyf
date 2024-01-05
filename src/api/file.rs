@@ -13,7 +13,7 @@ use {
     log::debug,
     reqwest::Client,
     serde::Deserialize,
-    tokio::{fs::File, io::AsyncWriteExt},
+    tokio::{fs, io::AsyncWriteExt},
 };
 
 #[derive(Debug, PartialEq, Eq, Deserialize)]
@@ -31,7 +31,7 @@ pub enum Extension {
 }
 
 #[derive(Debug, Deserialize)]
-pub struct AltObject {
+pub struct Alternates {
     pub r#type: String,
     pub width: u32,
     pub height: u32,
@@ -39,7 +39,7 @@ pub struct AltObject {
 }
 
 #[derive(Debug, Deserialize)]
-pub struct FileObject {
+pub struct PostFile {
     /// **Funfact**: The widest image on e621 \[112770\] is 21616 pixels long.
     pub width: u16,
 
@@ -55,7 +55,7 @@ pub struct FileObject {
 }
 
 #[derive(Debug, Deserialize)]
-pub struct PreviewObject {
+pub struct Preview {
     pub width: u16,
     pub height: u16,
 
@@ -64,7 +64,7 @@ pub struct PreviewObject {
 }
 
 #[derive(Debug, Deserialize)]
-pub struct SampleObject {
+pub struct Sample {
     /// If the post has a sample/thumbnail or not.
     pub has: bool,
     pub height: u16,
@@ -77,10 +77,10 @@ pub struct SampleObject {
     /// videos and specifies different format per sample.
     /// 
     /// The form is Key-Paired Objects where the key is something like `480p`.
-    pub alternates: HashMap<String, AltObject>
+    pub alternates: HashMap<String, Alternates>
 }
 
-impl FileObject {
+impl PostFile {
     pub async fn get_image_data(&self, client: Client)
         -> Result<Bytes, reqwest::Error> {
         let res = client.get(&self.url).send().await?.bytes().await?;
@@ -90,7 +90,7 @@ impl FileObject {
     
     pub async fn write(&self, client: Client, filepath: &str) -> Result<(), Box<dyn Error>> {
         debug!("writing {filepath} using {:#?}", client);
-        File::create(filepath).await?
+        fs::File::create(filepath).await?
         .write(self.get_image_data(client).await?.as_ref()).await?;
         Ok(())
     }

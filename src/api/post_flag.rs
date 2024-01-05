@@ -22,8 +22,9 @@ pub enum Type {
     Flag
 }
 
+/// Not to be confused by [`post's flag`](crate::api::post::Flags)
 #[derive(Debug, Deserialize)]
-pub struct FlagObject {
+pub struct PostFlag {
     pub id: IdType,
     #[serde(with = "datetimeformat")]
     pub created_at: OffsetDateTime,

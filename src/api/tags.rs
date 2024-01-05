@@ -25,7 +25,7 @@ pub enum Kind {
 pub type TagType = Vec<String>;
 
 #[derive(Debug, Deserialize)]
-pub struct TagObject {
+pub struct Tags {
     pub general: TagType,
     pub artist: TagType,
     pub copyright: TagType,
@@ -36,6 +36,6 @@ pub struct TagObject {
     pub lore: TagType,
 }
 
-impl TagObject {
+impl Tags {
     
 }

@@ -16,7 +16,7 @@ use {
 pub const NOTES_URL: &'static str = "notes.json";
 
 #[derive(Debug, Deserialize)]
-pub struct NoteObject {
+pub struct Note {
     pub id: u32,
     #[serde(with = "datetimeformat")]
     pub created_at: OffsetDateTime,
@@ -34,6 +34,6 @@ pub struct NoteObject {
     pub creator_name: String
 }
 
-impl NoteObject {
+impl Note {
     
 }

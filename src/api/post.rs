@@ -9,7 +9,6 @@
 use {
     std::cmp::Ordering,
 
-    async_trait::async_trait,
     reqwest::{Url, Client, Error},
     serde::Deserialize,
     time::OffsetDateTime,
@@ -17,8 +16,8 @@ use {
     crate::connect::methods,
     
     super::{
-        tags::{TagObject, TagType},
-        file::{FileObject, PreviewObject, SampleObject},
+        tags::{Tags, TagType},
+        file::{PostFile, Preview, Sample},
         supplement::IdType,
         traits::*,
         datetimeformat,
@@ -58,16 +57,12 @@ pub struct Relations {
 
 #[derive(Debug, Eq, Deserialize)]
 pub struct Score {
-    /// The number of times voted up.
-    /// As of 2023, the most upvoted e621 post \[2848682\] is at +21425 raw
     pub up: i32,
-    
-    /// A negative number representing the number of times voted down.
-    /// Whereas the most downvoted e621 post (don't view, seriously) \[378180\] is at -7033 raw
     pub down: i32,
+    pub total: i32,
 
-    /// The total score (up + down).
-    pub total: i32
+    #[serde(default)]
+    pub our_score: i32,
 }
 
 impl Ord for Score {
@@ -96,17 +91,17 @@ impl Score {
 }
 
 #[derive(Debug, Deserialize)]
-pub struct PostObject {
+pub struct Post {
     pub id: IdType,
     #[serde(with = "datetimeformat")]
     pub created_at: OffsetDateTime,
-    #[serde(with = "datetimeformat")]
-    pub updated_at: OffsetDateTime,
-    pub file: FileObject,
-    pub preview: PreviewObject,
-    pub sample: SampleObject,
+    #[serde(with = "datetimeformat::option")]
+    pub updated_at: Option<OffsetDateTime>,
+    pub file: PostFile,
+    pub preview: Preview,
+    pub sample: Sample,
     pub score: Score,
-    pub tags: TagObject,
+    pub tags: Tags,
     pub locked_tags: TagType,
     pub change_seq: u32,
     pub flags: Flags,
@@ -124,7 +119,7 @@ pub struct PostObject {
     pub duration: Option<f32>
 }
 
-impl PostObject {
+impl Post {
 
 
     pub async fn vote(&self, client: Client) {
@@ -142,12 +137,11 @@ impl PostObject {
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all="lowercase")]
-pub enum PostObjectWrapper {
-    Post(PostObject)
+pub enum PostWrapper {
+    Post(Post)
 }
 
-#[async_trait]
-impl List for PostObjectWrapper {
+impl List for PostWrapper {
     async fn new_by_url(client: Client, url: Url) -> Result<Self, Error> {
         Ok(methods::get(client, url).await?.json::<Self>().await?)
     }
@@ -162,5 +156,5 @@ impl List for PostObjectWrapper {
 
 #[derive(Debug, Deserialize)]
 pub struct Posts {
-    pub posts: Vec<PostObject>
+    pub posts: Vec<Post>
 }

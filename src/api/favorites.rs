@@ -9,15 +9,15 @@
 use {
     serde::Deserialize,
 
-    super::posts::PostObject,
+    super::post::Post,
 };
 
 #[derive(Debug, Deserialize)]
-pub struct FavObject {
+pub struct Favorites {
     /// An unordered array of posts you favorited.
-    pub posts: Vec<PostObject>
+    pub posts: Vec<Post>
 }
 
-impl FavObject {
+impl Favorites {
     
 }

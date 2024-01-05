@@ -10,13 +10,13 @@
 //! 
 //! 
 
-pub mod pools;
-pub mod posts;
+pub mod pool;
+pub mod post;
 pub mod file;
 pub mod tags;
-pub mod notes;
+pub mod note;
 pub mod favorites;
-pub mod post_flags;
+pub mod post_flag;
 pub mod search;
 pub mod traits;
 pub mod supplement;

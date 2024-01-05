@@ -19,7 +19,7 @@ use {
         supplement::IdType,
         datetimeformat,
         traits::List,
-        posts::PostObjectWrapper,
+        post::PostWrapper,
     },
 };
 
@@ -37,7 +37,7 @@ pub enum Category {
 /// 
 /// See [e926's wiki](https://e926.net/wiki_pages/2425#pools) for more detail
 #[derive(Debug, Deserialize)]
-pub struct PoolObject {
+pub struct Pool {
     pub id: IdType,
     pub name: String,
     #[serde(with = "datetimeformat")]
@@ -54,24 +54,24 @@ pub struct PoolObject {
                     // time in the world to create so many post into a pool to overflow this
 }
 
-impl PoolObject {
-    /// Creates a new `PoolObject` by fetching a `url` and
+impl Pool {
+    /// Creates a new `Pool` by fetching a `url` and
     /// processing the result using `serde`'s `Deserialize`.
     pub async fn new_by_url(client: Client, url: Url) -> Result<Self, Error> {
         Ok(methods::get(client.clone(), url).await?.json::<Self>().await?)
     }
 
-    /// Creates a new `PoolObject` by fetching an `id` to *`https://e926.net/pools/<id>.json`*.
+    /// Creates a new `Pool` by fetching an `id` to *`https://e926.net/pools/<id>.json`*.
     /// 
-    /// Very similar to [`new_by_url`](PoolObject::new_by_url).
+    /// Very similar to [`new_by_url`](Pool::new_by_url).
     /// 
     /// # Example:
     /// 
     /// ```
-    /// use fluffyf::api::pools::PoolObject
+    /// use fluffyf::api::pools::Pool
     /// 
     /// # let client = create_client(build_header("ostipyroxene", "tCEt2CifHzRzMAcakJuEYpbx"))?;
-    /// let pool = PoolObject::new_by_url(client.clone(), 37853).await?;
+    /// let pool = Pool::new_by_url(client.clone(), 37853).await?;
     /// ```
     pub async fn new_by_id(client: Client, id: IdType) -> Result<Self, Error> {
         Ok(
@@ -88,18 +88,18 @@ impl PoolObject {
 
     }
 
-    /// Iteratively fetch all the post in [`post_ids`](PoolObject::post_ids) (of type
-    /// [`IdType`]) and returns [`PostObjectWrapper`].
+    /// Iteratively fetch all the post in [`post_ids`](Pool::post_ids) (of type
+    /// [`IdType`]) and returns [`PostWrapper`].
     /// 
     /// # Example 
     pub async fn get_all_posts(self, client: Client)
-        -> Result<Vec<PostObjectWrapper>, Error> {
+        -> Result<Vec<PostWrapper>, Error> {
         
         Ok(futures::stream::iter(
             self.post_ids.into_iter().map(|id| {
                 let cc = client.clone();
                 async move {
-                    match PostObjectWrapper::new_by_id(cc, id).await {
+                    match PostWrapper::new_by_id(cc, id).await {
                         Ok(x) => x,
                         Err(e) => {
                             error!("Error while getting all posts: {:#?}", e);

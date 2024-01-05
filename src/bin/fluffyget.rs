@@ -13,21 +13,21 @@ use {
     clap::{command, Parser, arg, Subcommand},
     common::build_header,
     futures::StreamExt,
-    fluffyf::{connect::*, api::{posts::PostObjectWrapper, pools::PoolObject}},
+    fluffyf::{connect::*, api::{post::PostWrapper, pool::Pool}},
     tokio::{fs::File, io::AsyncWriteExt},
 };
 
 #[tokio::main]
 async fn download_pool() -> Result<(), Box<dyn stdError>> {
     let client = create_client(build_header("ostipyroxene", "tCEt2CifHzRzMAcakJuEYpbx"))?;
-    let pool = PoolObject::new_by_id(client.clone(), 37853).await?;
+    let pool = Pool::new_by_id(client.clone(), 37853).await?;
     println!("{:#?}", pool);
     let posts = pool.get_all_posts(client.clone()).await?;
     futures::stream::iter(posts.iter().map(|postw| {
         let cc = client.clone();
         async move {
             match postw {
-                PostObjectWrapper::Post(post) => {
+                PostWrapper::Post(post) => {
                     match post.file.get_image_data(cc).await {
                         Ok(b) => {
                             File::create(format!("volleyball/{}.png", post.id))

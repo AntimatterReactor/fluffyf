@@ -6,27 +6,29 @@
 // at Your option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-//! An abstraction library to easily fetch/post/modify/delete e621.net content
+//! A wrapper to e621 and [e926]'s API
 //! 
-//! fluffyf allows for very simple and painless abstracted API
-//! requests to the mature furry imageboard e621.net and e926.net
+//! fluffyf allows for very simple and painless abstracted API requests
+//! to the mature furry imageboard e621 and the safer [e926]
+//! 
+//! Note: most of the documentation will use [e926] instead of e621
+//! for obvious reason
+//! 
+//! # Usage
 //! 
 //! 
 //! 
-//! 
-//! 
-//! 
-//! 
+//! [e926]: https://e926.net
 
 extern crate reqwest;
 extern crate bytes;
-extern crate tokio;
 extern crate serde;
 extern crate log;
 extern crate time;
-extern crate async_trait;
 extern crate futures;
 
 pub mod api;
 pub mod connect;
-pub mod utils;
+pub mod client;
+
+// pub mod utils;
