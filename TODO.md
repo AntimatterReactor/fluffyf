@@ -1,5 +1,4 @@
 - [ ] frustrating: implement methods and traits for API objects
-- [ ] hell: use more specific Deserialize method for ***every* object**
 - [ ] painful: switch from reqwest to hyper + rustls/native-tls
 - [ ] annoying: document thoroughly:
     - [ ] posts
@@ -9,4 +8,14 @@
     - [ ] search
     - [ ] tags
     - [ ] notes
-    - [ ] post_flags
+    - [ ] post\_flags
+- [x] coagulate all use statements
+- [ ] implement Stream items for Pool and Post
+- [x] original idea was correct: rename to remove plurality (pools => pool)
+- [x] remove `Object` suffix from the objects
+- [ ] create Search types per object and traits for those Search types
+- [ ] rust 1.75 stabilized async fn traits in traits:
+    - [x] remove async\_traits dependency
+    - [x] add minimum supported rust version (MSRV) to 1.75
+        - [ ] document/explain why the MSRV is so high
+    - [ ] install rustup (forgot to do this)

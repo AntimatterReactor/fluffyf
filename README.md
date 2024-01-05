@@ -1,6 +1,6 @@
-# FluffyF
+# fluffyf
 
-FluffyF or fluffyf is pretty much a rust library and application implementing API requests to e621 with the primary focus of downloading posts and pools.
+fluffyf is pretty much a rust library and application implementing API requests to e621 with the primary focus of downloading posts and pools.
 
 ## Getting Started
 
