@@ -14,8 +14,10 @@
 - [x] original idea was correct: rename to remove plurality (pools => pool)
 - [x] remove `Object` suffix from the objects
 - [ ] create Search types per object and traits for those Search types
-- [ ] rust 1.75 stabilized async fn traits in traits:
+- [x] rust 1.75 stabilized async fn traits in traits:
     - [x] remove async\_traits dependency
     - [x] add minimum supported rust version (MSRV) to 1.75
-        - [ ] document/explain why the MSRV is so high
-    - [ ] install rustup (forgot to do this)
+        - [x] document/explain why the MSRV is so high
+    - [x] install rustup (forgot to do this)
+- [ ] after most of the above: release to public + crates.io
+- [ ] add wasm support
