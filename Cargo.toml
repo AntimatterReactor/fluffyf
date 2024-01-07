@@ -18,9 +18,6 @@ name = "fluffyget"
 [[bin]]
 name = "fluffypost"
 
-[[test]]
-name = "fluffyintegration"
-
 [features]
 default = ["rate-limit"]
 rate-limit = []
