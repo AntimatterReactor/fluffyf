@@ -8,18 +8,45 @@
 
 //! An implementation/analogue of e926's JSON replies
 //! 
+//! The `api` module and all it's submodule provides structs that implements
+//! Serde's `Deserialize` trait.
 //! 
+//! What this means in less technical jargon, is that when you want to turn json
+//! acquired from requesting to E926 into legible rust form, you use the descendants
+//! of this module specifically.
+//! 
+//! It is not recommended to use `api` objects directly for most high-level purposes,
+//! instead, refer to [`Client`](crate::client::Client)
 
-pub mod pool;
-pub mod post;
-pub mod file;
-pub mod tags;
-pub mod note;
-pub mod favorites;
-pub mod post_flag;
-pub mod search;
-pub mod traits;
-pub mod supplement;
+mod pool;
+pub use self::pool::*;
+
+mod post;
+pub use self::post::*;
+
+mod file;
+pub use self::file::*;
+
+mod tags;
+pub use self::tags::*;
+
+mod note;
+pub use self::note::*;
+
+mod favorites;
+pub use self::favorites::*;
+
+mod post_flag;
+pub use self::post_flag::*;
+
+mod search;
+pub use self::search::*;
+
+mod traits;
+pub use self::traits::*;
+
+mod supplement;
+pub use self::supplement::*;
 
 time::serde::format_description!(datetimeformat, OffsetDateTime, "[year]-[month]-[day]T[hour]:[minute]:[second].[subsecond digits:3][offset_hour sign:mandatory]:[offset_minute]");
 
