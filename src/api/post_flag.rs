@@ -22,7 +22,9 @@ pub enum PostFlagType {
     Flag
 }
 
-/// Not to be confused by [`post's flag`](crate::api::post::Flags)
+/// Analogue to `/post_flags/<id>.json`
+/// 
+/// Not to be confused with [`Post's Flags`](crate::api::post::Flags)
 #[derive(Debug, Deserialize)]
 pub struct PostFlag {
     pub id: IdType,

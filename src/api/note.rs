@@ -15,6 +15,7 @@ use {
 
 pub const NOTES_URL: &'static str = "notes.json";
 
+/// Analogue to `/notes/<id>.json`
 #[derive(Debug, Deserialize)]
 pub struct Note {
     pub id: u32,

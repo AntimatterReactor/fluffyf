@@ -42,7 +42,7 @@ pub struct Alternates {
 
 #[derive(Debug, Deserialize)]
 pub struct PostFile {
-    /// **Funfact**: The widest image on e621 \[112770\] is 21616 pixels long.
+    /// **Funfact**: The widest image on E621 \[112770\] is 21616 pixels long.
     pub width: u16,
 
     /// And the tallest \[37061\] is 17700 pixels tall.

@@ -6,19 +6,23 @@
 // at Your option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-//! A wrapper to e621 and [e926]'s API
+//! A wrapper to E621 and [E926]'s API
 //! 
 //! fluffyf allows for very simple and painless abstracted API requests
-//! to the mature furry imageboard e621 and the safer [e926]
+//! to the mature furry imageboard E621 and the safer [E926]
 //! 
-//! Note: most of the documentation will use [e926] instead of e621
+//! Note: most of the documentation will use [E926] instead of E621
 //! for obvious reason
+//! 
+//! Another note: this documentation will only ever discuss fluffyf the
+//! library, for how to use the binaries, refer to [the README]
 //! 
 //! # Usage
 //! 
 //! 
 //! 
-//! [e926]: https://e926.net
+//! [E926]: https://e926.net
+//! [the README]: https://github.com/AntimatterReactor/fluffyf/blob/main/README.md
 
 extern crate reqwest;
 extern crate bytes;

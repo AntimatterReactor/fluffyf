@@ -6,7 +6,7 @@
 // at Your option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-//! An implementation/analogue of e926's JSON replies
+//! An implementation/analogue of E926's JSON replies
 //! 
 //! The `api` module and all it's submodule provides structs that implements
 //! Serde's `Deserialize` trait.

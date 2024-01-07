@@ -1,10 +1,29 @@
 # fluffyf
 
 fluffyf is pretty much a rust library and application implementing API requests
-to e621/e926 with the primary focus of downloading posts and pools.
+to E621/E926 with the primary focus of downloading posts and pools.
 
-Before anything, please read [e926's API documentation](https://e926.net/wiki_pages/2425#api),
+Before anything, please read [E926's API documentation](https://e926.net/wiki_pages/2425#api),
 it helps, trust me.
+
+If you're new to asynchronous programming in Rust (like me), you should read
+[the async book](https://rust-lang.github.io/async-book/), and maybe
+even [tokio's tutorial](https://tokio.rs/tokio/tutorial).
+
+## Current State
+
+`fluffyf` is currently
+- barely usable
+- missing a lot of features
+- still lackluster in proper async implementation
+- severely underdocumented
+
+`fluffyget` is currently
+- lacking pool fetching
+- can't handle file based input
+- etc
+
+`fluffypost` is currently **unusable and not ready yet**
 
 ## Installation
 
@@ -67,8 +86,8 @@ As such, **expect extreme amounts of breaking changes per minor version changes*
 
 ### MSRV
 
-Due to the nature of async programming in Rust, expect a very high (or "cutting-edge")
-minimum supported Rust version.
+Due to the nature of async programming in Rust, fluffyf is almost forced
+to use a very high (or "cutting-edge") minimum supported Rust version.
 
 Note: after `1.0.0`, MSRV changes will only happen every major version change.
 
@@ -85,7 +104,7 @@ shall be implicitly dual licensed as stated above.
 
 ### Some Attribution
 
-nasso, playfulkittykat
+@nasso, @playfulkittykat for `rate_limit` in [rs621](https://github.com/nasso/rs621)
 
 ## This Project is Under Construction 🚧
 

@@ -6,6 +6,10 @@
 // at Your option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
+//! Higher-level abstraction to [reqwest]'s Client
+//! 
+//! [reqwest]: https://github.com/seanmonstar/reqwest
+
 pub mod methods;
 
 use {

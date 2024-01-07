@@ -9,11 +9,9 @@
 use {
     std::cmp::Ordering,
 
-    reqwest::{Url, Client, Error},
+    reqwest::{Url, Client},
     serde::Deserialize,
     time::OffsetDateTime,
-
-    crate::connect::methods,
     
     super::{
         tags::{Tags, TagType},
@@ -26,6 +24,14 @@ use {
 
 pub const POSTS_URL: &'static str = "posts.json";
 
+/// Represents the rating of a [`Post`]
+/// 
+/// Serve as an analogue to E621's `"rating"` string.
+/// 
+/// [`Deserialize`]:
+/// - `"s"` => [`Safe`](Rating::Safe)
+/// - `"q"` => [`Questionable`](Rating::Questionable)
+/// - `"e"` => [`Explicit`](Rating::Explicit)
 #[derive(Debug, PartialEq, Eq, Deserialize)]
 pub enum Rating {
     #[serde(rename = "s")]
@@ -36,6 +42,7 @@ pub enum Rating {
     Explicit
 }
 
+/// Analogue to `"flags": {...}` JSON object
 #[derive(Debug, PartialEq, Eq, Deserialize)]
 pub struct Flags {
     /// If the post is pending approval.
@@ -47,6 +54,7 @@ pub struct Flags {
     pub deleted: bool
 }
 
+/// Analogue to `"relationships": {...}` JSON object
 #[derive(Debug, Deserialize)]
 pub struct PostRelations {
     pub parent_id: Option<IdType>,
@@ -55,14 +63,12 @@ pub struct PostRelations {
     pub children: Vec<IdType>
 }
 
+/// Analogue to `"score": {...}` JSON object
 #[derive(Debug, Eq, Deserialize)]
 pub struct Score {
     pub up: i32,
     pub down: i32,
     pub total: i32,
-
-    #[serde(default)]
-    pub our_score: i32,
 }
 
 impl Ord for Score {
@@ -135,6 +141,7 @@ impl Post {
     }
 }
 
+/// Analogue to `/posts/<id>.json`
 #[derive(Debug, Deserialize)]
 #[serde(rename_all="lowercase")]
 pub enum PostWrapper {
@@ -145,6 +152,7 @@ impl List for PostWrapper {
     const ENDPOINT: &'static str = "posts";
 }
 
+/// Analogue to `/posts.json`
 #[derive(Debug, Deserialize)]
 pub struct Posts {
     pub posts: Vec<Post>

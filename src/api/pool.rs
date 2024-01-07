@@ -32,10 +32,8 @@ pub enum Category {
     Collection
 }
 
-/// An analogue to the pool object returned by sending a `GET`
-/// request to *`https://e926.net/pools/<id>.json`*
+/// Analogue to `/pools/<id>.json`
 /// 
-/// See [e926's wiki](https://e926.net/wiki_pages/2425#pools) for more detail
 #[derive(Debug, Deserialize)]
 pub struct Pool {
     pub id: IdType,
