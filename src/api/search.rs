@@ -6,16 +6,37 @@
 // at Your option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-pub struct Search {
-
+pub(crate) trait Search {
+    // async fn query
 }
 
 pub enum PageSearchType {
-    Number(u32),
-    A(u32),
-    B(u32)
+    Page(u32),
+    After(u32),
+    Before(u32)
 }
 
-pub struct SearchList {
-    
+pub struct SearchPosts {
+
 }
+
+pub struct SearchPools {
+
+}
+
+pub struct SearchTags {
+
+}
+
+pub struct SearchTagAliases {
+
+}
+
+pub struct SearchNotes {
+
+}
+
+pub struct SearchPostFlags {
+
+}
+

@@ -17,7 +17,7 @@ use {
     
     super::{
         tags::{Tags, TagType},
-        file::{PostFile, Preview, Sample},
+        file::{PostFile, PostPreview, PostSample},
         supplement::IdType,
         traits::*,
         datetimeformat,
@@ -48,7 +48,7 @@ pub struct Flags {
 }
 
 #[derive(Debug, Deserialize)]
-pub struct Relations {
+pub struct PostRelations {
     pub parent_id: Option<IdType>,
     pub has_children: bool,
     pub has_active_children: bool,
@@ -98,8 +98,8 @@ pub struct Post {
     #[serde(with = "datetimeformat::option")]
     pub updated_at: Option<OffsetDateTime>,
     pub file: PostFile,
-    pub preview: Preview,
-    pub sample: Sample,
+    pub preview: PostPreview,
+    pub sample: PostSample,
     pub score: Score,
     pub tags: Tags,
     pub locked_tags: TagType,
@@ -109,7 +109,7 @@ pub struct Post {
     pub fav_count: u32,
     pub sources: Vec<String>,
     pub pools: Vec<IdType>,
-    pub relationships: Relations,
+    pub relationships: PostRelations,
     pub approver_id: Option<IdType>,
     pub uploader_id: IdType,
     pub description: String,
@@ -142,16 +142,7 @@ pub enum PostWrapper {
 }
 
 impl List for PostWrapper {
-    async fn new_by_url(client: Client, url: Url) -> Result<Self, Error> {
-        Ok(methods::get(client, url).await?.json::<Self>().await?)
-    }
-
-    async fn new_by_id(client: Client, id: IdType) -> Result<Self, Error> {
-        Ok(
-            methods::get(client, format!("https://e621.net/posts/{id}.json")
-                .parse().unwrap()).await?.json::<Self>().await?
-        )
-    }
+    const ENDPOINT: &'static str = "posts";
 }
 
 #[derive(Debug, Deserialize)]

@@ -14,6 +14,8 @@ use {
     reqwest::Client,
     serde::Deserialize,
     tokio::{fs, io::AsyncWriteExt},
+    
+    crate::RqResult,
 };
 
 #[derive(Debug, PartialEq, Eq, Deserialize)]
@@ -55,7 +57,7 @@ pub struct PostFile {
 }
 
 #[derive(Debug, Deserialize)]
-pub struct Preview {
+pub struct PostPreview {
     pub width: u16,
     pub height: u16,
 
@@ -64,7 +66,7 @@ pub struct Preview {
 }
 
 #[derive(Debug, Deserialize)]
-pub struct Sample {
+pub struct PostSample {
     /// If the post has a sample/thumbnail or not.
     pub has: bool,
     pub height: u16,
@@ -82,7 +84,7 @@ pub struct Sample {
 
 impl PostFile {
     pub async fn get_image_data(&self, client: Client)
-        -> Result<Bytes, reqwest::Error> {
+        -> RqResult<Bytes> {
         let res = client.get(&self.url).send().await?.bytes().await?;
         debug!("got the bytes");
         Ok(res)

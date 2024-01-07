@@ -36,6 +36,14 @@ pub struct Tags {
     pub lore: TagType,
 }
 
+pub struct TagQuery {
+
+}
+
+pub struct TagAliasQuery {
+    
+}
+
 impl Tags {
     
 }

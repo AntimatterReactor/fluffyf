@@ -9,11 +9,11 @@
 use {
     futures::StreamExt,
     log::error,
-    reqwest::{Url, Client, Error},
+    reqwest::Client,
     serde::Deserialize,
     time::OffsetDateTime,
 
-    crate::connect::methods,
+    crate::RqResult,
 
     super::{
         supplement::IdType,
@@ -54,32 +54,11 @@ pub struct Pool {
                     // time in the world to create so many post into a pool to overflow this
 }
 
+impl List for Pool {
+    const ENDPOINT: &'static str = "pools";
+}
+
 impl Pool {
-    /// Creates a new `Pool` by fetching a `url` and
-    /// processing the result using `serde`'s `Deserialize`.
-    pub async fn new_by_url(client: Client, url: Url) -> Result<Self, Error> {
-        Ok(methods::get(client.clone(), url).await?.json::<Self>().await?)
-    }
-
-    /// Creates a new `Pool` by fetching an `id` to *`https://e926.net/pools/<id>.json`*.
-    /// 
-    /// Very similar to [`new_by_url`](Pool::new_by_url).
-    /// 
-    /// # Example:
-    /// 
-    /// ```
-    /// use fluffyf::api::pools::Pool
-    /// 
-    /// # let client = create_client(build_header("ostipyroxene", "tCEt2CifHzRzMAcakJuEYpbx"))?;
-    /// let pool = Pool::new_by_url(client.clone(), 37853).await?;
-    /// ```
-    pub async fn new_by_id(client: Client, id: IdType) -> Result<Self, Error> {
-        Ok(
-            methods::get(client.clone(), format!("https://e926.net/pools/{id}.json")
-                .parse().unwrap()).await?.json::<Self>().await?
-        )
-    }
-
     pub async fn by_search_first(&self, id: IdType) {
 
     }
@@ -93,7 +72,7 @@ impl Pool {
     /// 
     /// # Example 
     pub async fn get_all_posts(self, client: Client)
-        -> Result<Vec<PostWrapper>, Error> {
+        -> RqResult<Vec<PostWrapper>> {
         
         Ok(futures::stream::iter(
             self.post_ids.into_iter().map(|id| {

@@ -17,7 +17,7 @@ pub const FLAGS_URL: &'static str = "post_flags.json";
 
 #[derive(Debug, PartialEq, Eq, Deserialize)]
 #[serde(rename_all="lowercase")]
-pub enum Type {
+pub enum PostFlagType {
     Delete,
     Flag
 }
@@ -35,5 +35,5 @@ pub struct PostFlag {
     #[serde(with = "datetimeformat")]
     pub updated_at: OffsetDateTime,
     pub is_deletion: bool,
-    pub r#type: Type
+    pub r#type: PostFlagType
 }

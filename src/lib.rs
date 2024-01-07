@@ -31,4 +31,6 @@ pub mod api;
 pub mod connect;
 pub mod client;
 
+pub(crate) type RqResult<T> = Result<T, reqwest::Error>;
+
 // pub mod utils;

@@ -15,16 +15,25 @@ use {
     super::supplement::IdType,
 };
 
-pub trait List where Self: Sized + DeserializeOwned {
-    async fn new_by_url(client: Client, url: Url) -> Result<Self, Error> {
-        Ok(methods::get(client, url).await?.json::<Self>().await?)
+pub trait List
+    where Self: Sized + DeserializeOwned {
+    const ENDPOINT: &'static str;
+
+    fn new_by_url(client: Client, url: Url)
+        -> impl std::future::Future<Output = Result<Self, Error>> + Send {
+        async move {
+            Ok(methods::get(client, url).await?.json::<Self>().await?)
+        } 
     }
 
-    async fn new_by_id(client: Client, id: IdType) -> Result<Self, Error> {
-        Ok(
-            methods::get(client, format!("https://e621.net/posts/{id}.json")
-                .parse().unwrap()).await?.json::<Self>().await?
-        )
+    fn new_by_id(client: Client, id: IdType)
+        -> impl std::future::Future<Output = Result<Self, Error>> + Send {
+        async move {
+            Ok(
+                methods::get(client, format!("https://e621.net/{}/{}.json", Self::ENDPOINT, id)
+                    .parse().unwrap()).await?.json::<Self>().await?
+            )
+        } 
     }
 }
 
@@ -42,18 +51,4 @@ pub trait Delete {
 
 pub trait Revert {
     
-}
-
-pub trait Vote {
-   async fn vote(&self, client: Client) {
-        
-    }
-
-    async fn vote_by_id(id: IdType) {
-
-    }
-
-    async fn vote_by_url(url: Url) {
-
-    }
 }
