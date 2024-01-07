@@ -22,7 +22,7 @@ pub fn encode_login<T: Display>(username: T, apikey: T) -> String {
 
 pub fn build_header<T: Display>(username: T, apikey: T) -> HeaderMap {
     let mut headers = HeaderMap::new();
-    headers.insert(USER_AGENT, format!("fluffyf/0.0.4 (by ostipyroxene@e621, AntimatterReactor@github)").parse().unwrap());
+    headers.insert(USER_AGENT, format!("fluffyget/0.1.0 (by ostipyroxene@e621, AntimatterReactor@github)").parse().unwrap());
     headers.insert(AUTHORIZATION, format!("Basic {}", encode_login(username, apikey)).parse().unwrap());
     info!("Built header {headers:#?}");
     headers
