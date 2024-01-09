@@ -6,6 +6,9 @@
 // at Your option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
+use clap::{ArgAction, ArgMatches, Arg};
+use log::info;
+
 mod common;
 
 use {
@@ -27,6 +30,14 @@ fn cli() -> Command {
         .subcommand_required(true)
         .arg_required_else_help(true)
         .author(env!("CARGO_PKG_AUTHORS"))
+        .arg(
+            Arg::new("user")
+                .short('u')
+                .long("user")
+                .value_names(["NAME", "APIKEY"])
+                .help("Authenticate using NAME and APIKEY")
+                .required(true)
+            )
         .subcommand(
             Command::new("posts")
                 .alias("post")
@@ -55,7 +66,10 @@ fn cli() -> Command {
                         .default_value(".")
                         .value_parser(clap::value_parser!(PathBuf))
                 )
-                .arg(arg!(-N --name "If used, make the pool folders name from pool names instead of from ID"))
+                .arg(
+                    arg!(-N --name "If used, make the pool folders name from pool names instead of from ID")
+                        .action(ArgAction::SetTrue)
+                )
                 .arg(
                     arg!(<ID> ... "The ID of pools to download")
                         .required(true)
@@ -65,8 +79,7 @@ fn cli() -> Command {
 }
 
 #[tokio::main]
-async fn download_posts(path: &PathBuf, posts: Vec<&IdType>) -> Result<(), Box<dyn stdError>> {
-    let client = create_client(build_header("ostipyroxene", "tCEt2CifHzRzMAcakJuEYpbx")).unwrap();
+async fn download_posts(client: reqwest::Client, path: &PathBuf, posts: Vec<&IdType>) -> Result<(), Box<dyn stdError>> {
     futures::stream::iter(posts.iter().map(|id| {
         let cc = client.clone();
         let p = path.clone();
@@ -95,6 +108,12 @@ fn main() -> Result<(), Box<dyn stdError>> {
 
     let matches = cli().get_matches();
 
+    let auth = 
+        matches.get_many::<String>("user").into_iter().flatten().collect::<Vec<_>>();
+        
+    let client = create_client(build_header(auth[0], auth[1]))
+        .expect("2 arguments guaranteed in clap");
+
     match matches.subcommand() {
         Some(("posts", sm)) => {
             let path = sm
@@ -107,15 +126,15 @@ fn main() -> Result<(), Box<dyn stdError>> {
                 .flatten()
                 .collect::<Vec<_>>();
 
-            println!("These ids: {:?} to here: {:?}", ids, path);
-            let _ = download_posts(path, ids);
+            info!("These ids: {:?} to here: {:?}", ids, path);
+            let _ = download_posts(client, path, ids);
         }
         Some(("pools", sm)) => {
             let path = sm
                 .get_one::<PathBuf>("output")
                 .expect("defaulted in clap");
             
-            let name = sm.contains_id("name");
+            let name = sm.get_flag("name");
 
             let ids = sm
                 .get_many::<IdType>("ID")
