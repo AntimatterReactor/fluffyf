@@ -1,6 +1,6 @@
 [package]
 name = "fluffyf"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Ezra Alvarion <ezraalvarion71@gmail.com>"]
 edition = "2021"
 rust-version = "1.75"
@@ -23,8 +23,8 @@ default = ["rate-limit"]
 rate-limit = []
 
 [dependencies]
-reqwest = { version = "0.11", features = ["json", "blocking", "multipart"] }
-tokio = { version = "1", features = ["full"] }
+reqwest = { version = "0.11", features = ["json", "blocking", "multipart", "native-tls"] }
+tokio = { version = "1", features = ["rt-multi-thread", "sync"] }
 serde = { version = "1", features = ["derive"] }
 time = { version = "0.3", features = ["formatting", "macros", "parsing", "serde"]}
 clap = "4"
