@@ -16,12 +16,11 @@ use {
 };
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    panic!();
-    let client = blocking::create_client(build_header("ostipyroxene", "tCEt2CifHzRzMAcakJuEYpbx"))?;
-    println!("{:#?}", client);
-    let f = Form::new().file("upload[file]", "/home/jaded/codes/fluffyf/7596994.png")?; // TODO: complete with data
-    println!("{:#?}", f);
-    let r = methods::blocking::post(client, "https://e621.net/posts.json".parse()?, f)?;
-    println!("{:#?}", r.text());
+    // let client = blocking::create_client(build_header("ostipyroxene", "tCEt2CifHzRzMAcakJuEYpbx"))?;
+    // println!("{:#?}", client);
+    // let f = Form::new().file("upload[file]", "/home/jaded/codes/fluffyf/7596994.png")?; // TODO: complete with data
+    // println!("{:#?}", f);
+    // let r = methods::blocking::post(client, "https://e621.net/posts.json".parse()?, f)?;
+    // println!("{:#?}", r.text());
     Ok(())
 }
