@@ -29,11 +29,16 @@
 ## The Binaries
 
 - [ ] complete fluffyget
+    - [ ] authentication
+        - [x] basic form through flags
+        - [ ] save and reload to/from config form (use `directories` for cross-platformness)
+        - [ ] actually spew out errors relating to auth failure
     - [ ] expand to queries for other stuff than posts:
         - [ ] pools
         - [ ] favorites
         - [ ] tags and tag aliases
         - [ ] post\_flags
+    - [ ] better errors
 - [ ] complete fluffypost
     - [ ] posts
     - [ ] favorites
