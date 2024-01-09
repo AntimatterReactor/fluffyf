@@ -80,7 +80,7 @@ Regarding versioning and breaking changes.
 
 ### SemVer
 
-This project uses SemVer 2.0. However, as of January 2024, this project has not reached
+This project uses [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html). However, as of January 2024, this project has not reached
 version `1.0.0` yet.<br>
 As such, **expect extreme amounts of breaking changes per minor version changes**
 
@@ -91,13 +91,17 @@ to use a very high (or "cutting-edge") minimum supported Rust version.
 
 Note: after `1.0.0`, MSRV changes will only happen every major version change.
 
+### Changelogging
+
+This project follows [keep a changelog version 1.1.0](https://keepachangelog.com/en/1.1.0/).
+
 ## License
 This project is under a dual license of:
 
 - BSD 2-Clause License
 - Apache License, Version 2.0
 
-at Your (as defined in the Apache 2.0 License) option.
+at Your (as per Apache 2.0 License) option.
 
 Unless explicitly stated otherwise, any Contribution made by any Contributor to the Work
 shall be implicitly dual licensed as stated above.
