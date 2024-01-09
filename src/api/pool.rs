@@ -19,7 +19,7 @@ use {
         supplement::IdType,
         datetimeformat,
         traits::List,
-        post::PostWrapper,
+        post::{Posts, PostWrapper},
     },
 };
 
@@ -66,18 +66,18 @@ impl Pool {
     }
 
     /// Iteratively fetch all the post in [`post_ids`](Pool::post_ids) (of type
-    /// [`IdType`]) and returns [`PostWrapper`].
+    /// [`IdType`]) and returns [`Post`].
     /// 
     /// # Example 
     pub async fn get_all_posts(self, client: Client)
-        -> RqResult<Vec<PostWrapper>> {
+        -> RqResult<Posts> {
         
         Ok(futures::stream::iter(
             self.post_ids.into_iter().map(|id| {
                 let cc = client.clone();
                 async move {
                     match PostWrapper::new_by_id(cc, id).await {
-                        Ok(x) => x,
+                        Ok(PostWrapper::Post(x)) => x,
                         Err(e) => {
                             error!("Error while getting all posts: {:#?}", e);
                             panic!();

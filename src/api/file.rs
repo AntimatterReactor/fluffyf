@@ -7,13 +7,16 @@
 // except according to those terms.
 
 use {
-    std::{collections::HashMap, error::Error},
+    std::{
+        collections::HashMap,
+        error::Error,
+        fs
+    },
     
     bytes::Bytes,
     log::debug,
     reqwest::Client,
     serde::Deserialize,
-    tokio::{fs, io::AsyncWriteExt},
     
     crate::RqResult,
 };
@@ -92,8 +95,7 @@ impl PostFile {
     
     pub async fn write(&self, client: Client, filepath: &str) -> Result<(), Box<dyn Error>> {
         debug!("writing {filepath} using {:#?}", client);
-        fs::File::create(filepath).await?
-        .write(self.get_image_data(client).await?.as_ref()).await?;
+        fs::write(filepath, self.get_image_data(client).await?.as_ref())?;
         Ok(())
     }
 }

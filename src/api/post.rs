@@ -153,7 +153,4 @@ impl List for PostWrapper {
 }
 
 /// Analogue to `/posts.json`
-#[derive(Debug, Deserialize)]
-pub struct Posts {
-    pub posts: Vec<Post>
-}
+pub type Posts = Vec<Post>;
